@@ -1,11 +1,15 @@
 import React from "react";
 import "./Player.css";
+import AlbumArt from "./AlbumArt.png";
 
-const Player = props => {
+const Player = (props) => {
+  let imageUrl =
+    props.item.album.images.length > 0
+      ? props.item.album.images[0].url
+      : AlbumArt;
+
   const backgroundStyles = {
-    backgroundImage:`url(${
-      props.item.album.images[0].url
-    })`,
+    backgroundImage: `url(${imageUrl})`,
   };
 
   const progressBarStyles = {
@@ -16,7 +20,7 @@ const Player = props => {
     <div className="App">
       <div className="main-wrapper">
         <div className="now-playing__img">
-          <img src={props.item.album.images[0].url} />
+          <img src={imageUrl} />
         </div>
         <div className="now-playing__side">
           <div className="now-playing__name">{props.item.name}</div>

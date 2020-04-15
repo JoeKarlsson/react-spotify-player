@@ -34,6 +34,10 @@ class App extends Component {
         token: _token
       });
       this.getCurrentlyPlaying(_token);
+
+      setInterval(() => {
+        this.getCurrentlyPlaying(_token);
+      }, 5000);
     }
   }
 
