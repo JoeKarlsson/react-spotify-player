@@ -33,7 +33,7 @@ cd react-spotify-player
 
 ### 3. Update React Spotify Player Config
 
-Change `src/congig_example.js` to `src/config.js` and paste your Spotify Clioent ID from step 1 in the `clientId` feild.
+Change `src/congig_example.js` to `src/config.js` and paste your Spotify Client ID from step 1 in the `clientId` feild.
 
 ### 4. Install dependencies & run locally
 
