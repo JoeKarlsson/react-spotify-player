@@ -1,29 +1,24 @@
 {
-  "name": "react-instafeed",
-  "description": "Realtime Spotify Player built with React.",
+  "name": "react-spotify-player",
+  "description": "Modern Spotify Player built with React and Vite - Educational example",
   "version": "0.1.0",
   "author": "Joe Karlsson<joekarlsson1@gmail.com>",
   "license": "MIT",
   "private": true,
-  "dependencies": {
-    "jquery": "^3.4.1",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-scripts": "2.1.8"
-  },
+  "type": "module",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8"
+  }
 }

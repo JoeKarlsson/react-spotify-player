@@ -1,118 +1,121 @@
-# React Spotify Player
+# React Spotify Player - Modern Educational Example
 
-![How to Build A Spotify Player with React in 15 Minutes](https://user-images.githubusercontent.com/4650739/54856371-36ea3680-4cc8-11e9-9aeb-1be2a4d95f39.png)
+A modern React application demonstrating Spotify Web API integration using Vite. This example shows how to:
 
-Have you ever wanted to add Spotify integration into your app or website? Adding personalized music to any application is super easy with the Spotify Developer API.
+- Authenticate with Spotify using OAuth 2.0
+- Fetch currently playing track information
+- Display track details and playback status
+- Update information in real-time
 
-The Spotify API is easy to use and can be added to any application.
+## Features
 
-In this post, I am going to walk through how to access the Spotify Developer API in the browser using React. The goal is to be a starting point for frontend devs who want to get set up with Spotify API as quickly as possible. Together, we will be creating a Spotify Web player that displays information about your currently played music from Spotify. We will also demonstrate how to:
+- **Modern build tool** - Uses Vite for fast development and building
+- **Minimal dependencies** - Only React and Vite
+- **Educational focus** - Clean, readable code following React best practices
+- **Real-time updates** - Polls Spotify API every 5 seconds
+- **Modern React patterns** - Uses functional components and hooks
 
-- Register an application with Spotify
-- Authenticate a user and get authorization to access user data
-- Retrieve the data from a Web API endpoint
+## Setup
 
-You can read my in depth blog post that accompanies this code, here: [https://medium.com/@joekarlsson/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6](https://medium.com/@joekarlsson/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6)
+1. **Create a Spotify App**:
+   - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
+   - Create a new app
+   - Add `http://localhost:3000/redirect` to Redirect URIs
 
-![Spotify player](https://user-images.githubusercontent.com/4650739/54856251-8aa85000-4cc7-11e9-9bb1-e27812ac2e00.gif)
+2. **Configure the app**:
+   - Open `src/config/spotify.js`
+   - Replace the client ID with your Spotify app's Client ID (already configured!)
 
-## Quickstart
+3. **Install dependencies and run**:
+   ```bash
+   npm install
+   npm run dev
+   ```
 
-### 1. Register an application with Spotify
+4. **Open your browser**:
+   - Vite will automatically open `http://localhost:3000`
+   - Click "Login to Spotify"
+   - Authorize the app
+   - Start playing music in Spotify!
 
-Go to the [Dashboard](https://developer.spotify.com/dashboard) page at the Spotify Developer website, and click on ‘My New App.” Be sure to write down the Client ID from your application.
+## How it Works
 
-You can read my in depth blog post that accompanies this code, here: [https://medium.com/@joekarlsson/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6](https://medium.com/@joekarlsson/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6)
+### Authentication Flow
 
-### 2. Clone example repository
+1. User clicks "Login to Spotify"
+2. Redirects to Spotify's authorization endpoint
+3. User authorizes the app
+4. Spotify redirects back with access token in URL fragment
+5. App extracts token and stores it
 
-```sh
-git clone https://github.com/JoeKarlsson/react-spotify-player.git
-cd react-spotify-player
+### API Integration
+
+- Uses Spotify Web API `/me/player` endpoint
+- Fetches currently playing track information
+- Updates UI with track name, artist, album art, and progress
+- Polls every 5 seconds for real-time updates
+
+### Key Learning Points
+
+- **OAuth 2.0 Implicit Grant Flow** - Client-side authentication
+- **Fetch API** - Modern JavaScript for HTTP requests
+- **React Hooks** - useState, useEffect, useCallback for state management
+- **Error Handling** - Proper try/catch and user feedback
+- **Real-time Updates** - Polling pattern for live data
+
+## File Structure
+
+```
+├── index.html              # Main HTML template
+├── vite.config.js          # Vite configuration
+├── package.json            # Dependencies and scripts
+├── src/
+│   ├── main.jsx           # Entry point that renders the app
+│   ├── App.jsx            # Main App component with authentication logic
+│   ├── index.css          # Global styles
+│   ├── components/
+│   │   └── Player.jsx     # Player component for displaying track info
+│   ├── config/
+│   │   └── spotify.js     # Spotify API configuration
+│   └── utils/
+│       └── hash.js         # URL hash parsing utility
+└── README.md              # This file
 ```
 
-### 3. Update React Spotify Player Config
+## Dependencies
 
-Change `src/congig_example.js` to `src/config.js` and paste your Spotify Clioent ID from step 1 in the `clientId` feild.
+- **React 18** - Modern UI framework
+- **Vite** - Fast build tool and dev server
+- **@vitejs/plugin-react** - React support for Vite
 
-### 4. Install dependencies & run locally
+That's it! No complex build configuration needed.
 
-```sh
-npm install
-npm start # open http://localhost:3000 in your browser
-```
+## Educational Value
 
-## Available Scripts
+This minimal example teaches:
 
-In the project directory, you can run:
+- Spotify Web API authentication
+- React functional components and hooks
+- Modern JavaScript (async/await, fetch)
+- OAuth 2.0 flow implementation
+- Real-time data polling
+- Error handling patterns
 
-### `npm start`
+Perfect for understanding how to integrate external APIs with React applications!
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Code Organization
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Each file has a specific purpose following modern React best practices:
 
-### `npm test`
+- **`src/config/spotify.js`** - Contains all Spotify API configuration (endpoints, client ID, scopes)
+- **`src/utils/hash.js`** - Utility function to parse OAuth tokens from URL fragments
+- **`src/components/Player.jsx`** - React component that displays track information and progress
+- **`src/App.jsx`** - Main component handling authentication, API calls, and state management
+- **`src/main.jsx`** - Entry point that renders the React app
+- **`index.html`** - HTML template for the application
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Contributing
-
-Don't hesitate to create a pull request. Every contribution is appreciated. In development you can start the tests by calling `npm test`. Checkout our [contribution README](https://github.com/JoeKarlsson/movie-script-scraper/blob/master/CONTRIBUTING.md) for more info.
-
-### Contributing TLDR;
-
-1. Fork it!
-1. Create your feature branch: `git checkout -b my-new-feature`
-1. Commit your changes: `git commit -am 'Add some feature'`
-1. Push to the branch: `git push origin my-new-feature`
-1. Submit a pull request :D
-
-### Maintainers
-
-<table>
-  <tbody>
-    <tr>
-      <td align="center">
-        <img width="150 height="150"
-        src="https://avatars.githubusercontent.com/JoeKarlsson?v=3">
-        <br />
-        <a href="https://github.com/JoeKarlsson">Joe Karlsson</a>
-      </td>
-    <tr>
-  <tbody>
-</table>
-
-### License
-
-#### [MIT](./LICENSE)
-
-### Follow Joe Karlsson on Social
-
-- Twitter - [@JoeKarlsson1](https://twitter.com/JoeKarlsson1)
-- GitHub - [@JoeKarlsson](https://github.com/joekarlsson/)
-- LinkedIn - [/in/joekarlsson](https://www.linkedin.com/in/joekarlsson/)
-- Website - [joekarlsson.com](https://www.joekarlsson.com/)
+This structure follows modern React conventions:
+- Components in separate files with `.jsx` extension
+- Configuration separated from components
+- Utilities in dedicated folders
+- Clear separation of concerns
