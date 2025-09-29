@@ -1,5 +1,7 @@
 # React Spotify Player - Modern Educational Example
 
+![React Spotify Player Demo](./assets/demo.gif)
+
 A modern React application demonstrating Spotify Web API integration using Vite. This example shows how to:
 
 - Authenticate with Spotify using OAuth 2.0
@@ -27,6 +29,7 @@ A modern React application demonstrating Spotify Web API integration using Vite.
    - Replace the client ID with your Spotify app's Client ID (already configured!)
 
 3. **Install dependencies and run**:
+
    ```bash
    npm install
    npm run dev
@@ -115,7 +118,53 @@ Each file has a specific purpose following modern React best practices:
 - **`index.html`** - HTML template for the application
 
 This structure follows modern React conventions:
+
 - Components in separate files with `.jsx` extension
 - Configuration separated from components
 - Utilities in dedicated folders
 - Clear separation of concerns
+
+## 📚 Educational Resources
+
+### 📖 Additional Documentation
+
+- **[Troubleshooting Guide](./TROUBLESHOOTING.md)** - Comprehensive guide for resolving common issues
+- **[API Endpoints Guide](./API_ENDPOINTS_GUIDE.md)** - Examples of additional Spotify API endpoints to explore
+- **[Contributing Guide](./CONTRIBUTING.md)** - How to contribute to this educational project
+- **[Blog Post](https://medium.com/@joekarlsson/how-to-build-a-spotify-player-with-react-in-15-minutes-7e01991bc4b6)** - Original tutorial: "How to Build A Spotify Player with React in 15 Minutes"
+
+### 🎯 Learning Path
+
+1. **Start Here**: Follow the Quick Start guide above
+2. **Understand the Code**: Read the detailed comments in `src/App.jsx` and `src/components/Player.jsx`
+3. **Troubleshoot Issues**: Check the [Troubleshooting Guide](./TROUBLESHOOTING.md) if you encounter problems
+4. **Expand Your Skills**: Explore additional endpoints in the [API Endpoints Guide](./API_ENDPOINTS_GUIDE.md)
+5. **Build More Features**: Use the examples to add playlists, search, or recommendations
+
+### 🔗 External Resources
+
+- **[Spotify Web API Documentation](https://developer.spotify.com/documentation/web-api/)** - Official API reference
+- **[Spotify Developer Dashboard](https://developer.spotify.com/dashboard)** - Manage your app settings
+- **[React Documentation](https://reactjs.org/docs/getting-started.html)** - Learn React fundamentals
+- **[OAuth 2.0 Guide](https://developer.spotify.com/documentation/general/guides/authorization-guide/)** - Understanding Spotify's authentication
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](./CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+
+## 👨‍💻 Author
+
+**Joe Karlsson**
+
+- 🐦 **Twitter**: [@JoeKarlsson1](https://twitter.com/JoeKarlsson1)
+- 💻 **GitHub**: [@JoeKarlsson](https://github.com/joekarlsson/)
+- 💼 **LinkedIn**: [/in/joekarlsson](https://www.linkedin.com/in/joekarlsson/)
+- 🌐 **Website**: [joekarlsson.com](https://www.joekarlsson.com/)
+
+---
+
+⭐ **Star this repository if you found it helpful!**
