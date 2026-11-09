@@ -1,6 +1,10 @@
 # React Spotify Player - Modern Educational Example
 
-![React Spotify Player Demo](./assets/demo.gif)
+![React Spotify Player: clicking Login with Spotify, approving the app on Spotify's permission screen, then the player showing the song that's playing, with album art, a progress bar and a Logout button](.github/readme/2026-11-recording.gif)
+
+What React Spotify Player looked like in November 2026, recorded for [its page on joekarlsson.com](https://www.joekarlsson.com/work/react-spotify-player/). The full-quality video is [2026-11-recording.mp4](.github/readme/2026-11-recording.mp4).
+
+> **Heads up:** this app logs in with Spotify's Implicit Grant flow, which Spotify deprecated in November 2025. It's fine for following the tutorial, but new apps should use the [Authorization Code flow with PKCE](https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow) instead.
 
 A modern React application demonstrating Spotify Web API integration using Vite. This example shows how to:
 
@@ -22,7 +26,7 @@ A modern React application demonstrating Spotify Web API integration using Vite.
 1. **Create a Spotify App**:
    - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
    - Create a new app
-   - Add `http://localhost:3000/redirect` to Redirect URIs
+   - Add `http://localhost:3001` to Redirect URIs (it has to match `redirectUri` in `src/config/spotify.js`)
 
 2. **Configure the app**:
    - Open `src/config/spotify.js`
@@ -36,7 +40,7 @@ A modern React application demonstrating Spotify Web API integration using Vite.
    ```
 
 4. **Open your browser**:
-   - Vite will automatically open `http://localhost:3000`
+   - Vite will automatically open `http://localhost:3001`
    - Click "Login to Spotify"
    - Authorize the app
    - Start playing music in Spotify!
@@ -60,7 +64,7 @@ A modern React application demonstrating Spotify Web API integration using Vite.
 
 ### Key Learning Points
 
-- **OAuth 2.0 Implicit Grant Flow** - Client-side authentication
+- **OAuth 2.0 Implicit Grant Flow** - Client-side authentication (deprecated by Spotify in November 2025)
 - **Fetch API** - Modern JavaScript for HTTP requests
 - **React Hooks** - useState, useEffect, useCallback for state management
 - **Error Handling** - Proper try/catch and user feedback
