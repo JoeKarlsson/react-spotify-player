@@ -38,12 +38,12 @@ This guide helps you resolve common issues when working with the React Spotify P
    - Ensure the redirect URI matches exactly:
 
      ```javascript
-     export const redirectUri = "http://localhost:3001"; // Must match dashboard
+     export const redirectUri = "http://127.0.0.1:3001"; // Must match dashboard
      ```
 
 3. **Check Redirect URI Format**
    - Must be exact match (including protocol, port, trailing slashes)
-   - Common mistakes: `http://localhost:3000` vs `http://localhost:3001`
+   - Common mistakes: `http://localhost:3001` vs `http://127.0.0.1:3001` (Spotify rejects `localhost`)
 
 ### Problem: "Access token expired" error
 
@@ -92,12 +92,15 @@ This guide helps you resolve common issues when working with the React Spotify P
    - Look for JavaScript errors
    - Check Network tab for failed requests
 
-2. **Verify Hash Parsing**
+2. **Verify the Authorization Code**
 
    ```javascript
-   // Test in browser console:
-   console.log(window.location.hash);
-   // Should show: #access_token=...&token_type=Bearer&expires_in=3600
+   // Right after Spotify redirects back, the URL has ?code=...
+   // The app trades it for a token, then clears it from the address bar.
+   // "Login failed: Token request failed: 400" usually means the code was
+   // already used or the code verifier is missing: open the app at
+   // http://127.0.0.1:3001 (not localhost) so login and redirect share storage.
+   console.log(localStorage.getItem('code_verifier'));
    ```
 
 3. **Check URL Parameters**
@@ -275,7 +278,7 @@ This guide helps you resolve common issues when working with the React Spotify P
    ```javascript
    // Make sure imports match file extensions
    import Player from '/src/components/Player.jsx'; // .jsx extension
-   import { parseHash } from '/src/utils/hash.js'; // .js extension
+   import { login, getToken } from '/src/utils/pkce.js'; // .js extension
    ```
 
 2. **Verify File Paths**

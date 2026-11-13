@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { authEndpoint, clientId, redirectUri, scopes } from '/src/config/spotify.js';
-import { parseHash } from '/src/utils/hash.js';
+import { login, getToken } from '/src/utils/pkce.js';
 import Player from '/src/components/Player.jsx';
 
 /**
@@ -162,39 +161,44 @@ const App = () => {
    * Main effect hook for authentication and data polling
    * 
    * This useEffect handles:
-   * 1. Token retrieval from localStorage or URL hash
+   * 1. Token retrieval from localStorage, or trading the ?code= Spotify sends back
    * 2. Initial data fetch
    * 3. Setting up polling for real-time updates
    * 4. Cleanup on component unmount
    */
   useEffect(() => {
-    // Step 1: Try to get token from localStorage (persisted from previous session)
-    const savedToken = localStorage.getItem('spotify_access_token');
-    
-    // Step 2: Check URL hash for new token (after Spotify OAuth redirect)
-    const hash = parseHash();
-    const urlToken = hash.access_token;
+    let interval;
 
-    // Step 3: Use URL token if available, otherwise use saved token
-    const _token = urlToken || savedToken;
+    const start = async () => {
+      // Step 1: Try to get token from localStorage (persisted from previous session)
+      let _token = localStorage.getItem('spotify_access_token');
 
-    if (_token) {
-      // Step 4: Set token in state and save to localStorage
+      // Step 2: After the Spotify redirect, trade ?code= for a new access token
+      const code = new URLSearchParams(window.location.search).get('code');
+      if (code) {
+        // Clear ?code= from the address bar so it isn't used twice
+        window.history.replaceState({}, '', '/');
+        try {
+          _token = await getToken(code);
+        } catch (err) {
+          setError(`Login failed: ${err.message}`);
+          return;
+        }
+      }
+
+      if (!_token) return;
+
+      // Step 3: Set token in state and save to localStorage
       setToken(_token);
       localStorage.setItem('spotify_access_token', _token);
-      
-      // Step 5: Fetch initial data
+
+      // Step 4: Fetch initial data, then poll every 5 seconds
       getCurrentlyPlaying(_token);
-    }
+      interval = setInterval(() => getCurrentlyPlaying(_token), 5000);
+    };
+    start();
 
-    // Step 6: Set up polling every 5 seconds for real-time updates
-    const interval = setInterval(() => {
-      if (_token) {
-        getCurrentlyPlaying(_token);
-      }
-    }, 5000);
-
-    // Step 7: Cleanup function to clear interval when component unmounts
+    // Step 5: Cleanup function to clear interval when component unmounts
     return () => clearInterval(interval);
   }, [getCurrentlyPlaying]);
 
@@ -210,12 +214,9 @@ const App = () => {
         
         {/* Conditional rendering: Show login button if user is not authenticated */}
         {!token && (
-          <a
-            className="btn"
-            href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`}
-          >
+          <button className="btn" onClick={login}>
             Login to Spotify
-          </a>
+          </button>
         )}
         
         {/* Conditional rendering: Show player if authenticated and data is available */}

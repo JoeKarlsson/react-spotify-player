@@ -1,12 +1,13 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import App from '../App.jsx'
 
 // Mock the dependencies
 vi.mock('../config/spotify.js', () => ({
   authEndpoint: 'https://accounts.spotify.com/authorize',
+  tokenEndpoint: 'https://accounts.spotify.com/api/token',
   clientId: 'test-client-id',
-  redirectUri: 'http://localhost:3001',
+  redirectUri: 'http://127.0.0.1:3001',
   scopes: ['user-read-currently-playing']
 }))
 
@@ -18,7 +19,8 @@ describe('App Component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     localStorage.clear()
-    window.location.hash = ''
+    window.location.search = ''
+    window.location.href = 'http://127.0.0.1:3001'
     
     // Mock fetch globally
     global.fetch = vi.fn().mockResolvedValue({
@@ -49,19 +51,38 @@ describe('App Component', () => {
     })
   })
 
-  describe('Login URL Generation', () => {
-    it('should generate correct login URL', () => {
+  describe('Login', () => {
+    it('should send the user to Spotify with a PKCE code challenge', async () => {
       render(<App />)
-      
-      const loginLink = screen.getByText('Login to Spotify')
-      expect(loginLink).toHaveAttribute('href')
-      
-      const href = loginLink.getAttribute('href')
-      expect(href).toContain('https://accounts.spotify.com/authorize')
-      expect(href).toContain('client_id=test-client-id')
-      expect(href).toContain('redirect_uri=http%3A%2F%2Flocalhost%3A3001')
-      expect(href).toContain('scope=user-read-currently-playing')
-      expect(href).toContain('response_type=token')
+
+      fireEvent.click(screen.getByText('Login to Spotify'))
+
+      await waitFor(() => expect(window.location.href).toContain('https://accounts.spotify.com/authorize'))
+      const params = new URL(window.location.href).searchParams
+      expect(params.get('client_id')).toBe('test-client-id')
+      expect(params.get('redirect_uri')).toBe('http://127.0.0.1:3001')
+      expect(params.get('scope')).toBe('user-read-currently-playing')
+      expect(params.get('response_type')).toBe('code')
+      expect(params.get('code_challenge_method')).toBe('S256')
+      expect(params.get('code_challenge')).toMatch(/^[A-Za-z0-9_-]{43}$/)
+    })
+  })
+
+  describe('Spotify redirect', () => {
+    it('should trade ?code= for a token and show the player', async () => {
+      window.location.search = '?code=the-code'
+      window.history.replaceState = vi.fn()
+      global.fetch = vi.fn((url) => Promise.resolve(url.includes('/api/token')
+        ? { ok: true, json: () => Promise.resolve({ access_token: 'tok123' }) }
+        : { ok: true, text: () => Promise.resolve(JSON.stringify({ item: { album: { images: [{ url: '' }] }, name: 'Song', artists: [{ name: 'A' }], duration_ms: 1 }, is_playing: true, progress_ms: 0 })) }))
+
+      render(<App />)
+
+      expect(await screen.findByTestId('player')).toBeInTheDocument()
+      expect(fetch.mock.calls[0][0]).toBe('https://accounts.spotify.com/api/token')
+      expect(fetch.mock.calls[1][1].headers.Authorization).toBe('Bearer tok123')
+      expect(localStorage.setItem).toHaveBeenCalledWith('spotify_access_token', 'tok123')
+      expect(window.history.replaceState).toHaveBeenCalled()
     })
   })
 })

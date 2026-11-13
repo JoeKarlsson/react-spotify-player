@@ -13,13 +13,17 @@
 // Spotify OAuth authorization endpoint
 export const authEndpoint = "https://accounts.spotify.com/authorize";
 
+// Spotify token endpoint (trades the authorization code for an access token)
+export const tokenEndpoint = "https://accounts.spotify.com/api/token";
+
 // Your Spotify app's client ID (get this from Spotify Developer Dashboard)
 // TODO: Move this to environment variables for security
 export const clientId = "84e1f8dc34a647a2834aa94d9d2e45a7";
 
 // Where Spotify redirects after authentication
-// This must match the redirect URI in your Spotify app settings
-export const redirectUri = "http://localhost:3001";
+// This must match the redirect URI in your Spotify app settings.
+// Spotify doesn't accept "localhost" redirect URIs; use the loopback IP.
+export const redirectUri = "http://127.0.0.1:3001";
 
 // Permissions your app requests from the user
 // Each scope grants access to different parts of the Spotify API

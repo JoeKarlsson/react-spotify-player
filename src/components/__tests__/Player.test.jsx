@@ -61,7 +61,7 @@ describe('Player Component', () => {
       expect(progressBar).toBeInTheDocument()
       
       // progressMs (60000) / duration_ms (180000) * 100 = 33.33%
-      expect(progressBar.style.width).toBe('33.333333333333336%')
+      expect(progressBar.style.width).toBe('33.3333%')
     })
 
     it('should handle zero progress', () => {
@@ -80,7 +80,7 @@ describe('Player Component', () => {
       render(<Player {...defaultProps} progressMs={200000} />)
       const progressBar = document.querySelector('.progress__bar')
       // Should not exceed 100%
-      expect(progressBar.style.width).toBe('111.11111111111111%')
+      expect(progressBar.style.width).toBe('111.111%')
     })
   })
 
@@ -125,7 +125,8 @@ describe('Player Component', () => {
       }
       render(<Player {...defaultProps} item={itemWithoutImage} />)
       const albumImage = screen.getByAltText('Album cover for Test Song by Test Artist')
-      expect(albumImage).toHaveAttribute('src', '')
+      // React 19 leaves out an empty src instead of rendering src=""
+      expect(albumImage).not.toHaveAttribute('src')
     })
 
     it('should handle zero duration', () => {

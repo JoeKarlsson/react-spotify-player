@@ -7,13 +7,13 @@ const localStorageMock = {
     removeItem: vi.fn(),
     clear: vi.fn(),
 }
-global.localStorage = localStorageMock
+vi.stubGlobal('localStorage', localStorageMock)
 
 // Mock window.location
 Object.defineProperty(window, 'location', {
     value: {
-        hash: '',
-        href: 'http://localhost:3001',
+        search: '',
+        href: 'http://127.0.0.1:3001',
     },
     writable: true,
 })
@@ -29,4 +29,3 @@ global.console = {
     log: vi.fn(),
 }
 
-// Don't mock parseHash globally - let individual tests handle mocking if needed

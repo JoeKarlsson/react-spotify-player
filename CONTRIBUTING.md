@@ -87,21 +87,21 @@ npm run dev
 1. **Create a Spotify App**
    - Go to [Spotify Developer Dashboard](https://developer.spotify.com/dashboard)
    - Create a new app
-   - Add `http://localhost:3001` to Redirect URIs
+   - Add `http://127.0.0.1:3001` to Redirect URIs
 
 2. **Configure the App**
 
    ```javascript
    // In src/config/spotify.js
    export const clientId = "YOUR_SPOTIFY_CLIENT_ID";
-   export const redirectUri = "http://localhost:3001";
+   export const redirectUri = "http://127.0.0.1:3001";
    ```
 
 3. **Start Development**
 
    ```bash
    npm run dev
-   # Open http://localhost:3001
+   # Open http://127.0.0.1:3001
    ```
 
 ### Project Structure
@@ -113,7 +113,7 @@ src/
 ├── config/             # Configuration files
 │   └── spotify.js      # Spotify API configuration
 ├── utils/              # Utility functions
-│   └── hash.js         # URL hash parsing
+│   └── pkce.js         # PKCE login and token exchange
 ├── App.jsx             # Main app component
 ├── main.jsx            # Entry point
 └── index.css           # Global styles
@@ -145,7 +145,7 @@ const accessToken = "abc123";
 const API_BASE_URL = "https://api.spotify.com/v1";
 
 // Files: kebab-case for utilities, PascalCase for components
-// hash.js, Player.jsx
+// pkce.js, Player.jsx
 ```
 
 ### Code Organization

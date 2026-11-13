@@ -30,9 +30,9 @@ describe('spotify.js configuration', () => {
             expect(() => new URL(redirectUri)).not.toThrow()
         })
 
-        it('should be a localhost URL', () => {
+        it('should be a loopback URL (Spotify rejects localhost)', () => {
             const url = new URL(redirectUri)
-            expect(url.hostname).toBe('localhost')
+            expect(url.hostname).toBe('127.0.0.1')
         })
 
         it('should have the correct port', () => {
